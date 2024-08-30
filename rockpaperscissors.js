@@ -66,6 +66,8 @@ function computerWon(humanChoice, computerChoice) {
 function playGame() {
     let humanSelection = 0, computerSelection = 0;
     let humanScore = 0, computerScore = 0;
+
+    /*logic for 5 rounds */ 
     for  (let i = 0; i < 5; i++) {
         humanSelection = getHumanChoice();
         computerSelection = getComputerChoice();
