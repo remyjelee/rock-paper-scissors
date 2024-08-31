@@ -1,0 +1,109 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    background-color: #2E5A88;
+    color: white;
+}
+
+.title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    font-weight: 800;
+    flex-shrink: 0;
+    padding: 20px;
+    background-color: #436b94;
+}
+
+.contents {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+}
+
+.choice {
+    width: 150px;
+    height: 150px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #587ba0;
+    color: white;
+    margin-top: 20px;
+    font-size: 20px;
+}
+
+.textbox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 25px;
+    font-weight: 700;
+}
+
+.choices {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    align-items: center;
+    border: 0;
+}
+
+.scoreboard {
+    display: flex;
+    flex-grow: 0;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px;
+    flex-shrink: 0;
+}
+
+.score {
+    background-color: #587ba0;
+    font-size: 20px;
+    color: white;
+    display:flex;
+    gap: 10px;
+    width: 150px;
+    height: 30px;
+    padding: 10px;
+    align-items: center;
+    border-radius: 10px;
+}
+
+#cpuscore {
+    flex-direction: row-reverse;
+}
+
+.point {
+    width: 12px;
+    height: 12px;
+    background-color: white;
+    border-radius: 6px;
+}
+
+.finalscore {
+    color: white;
+    font-size: 30px;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #436b94;
+    padding: 10px;
+}

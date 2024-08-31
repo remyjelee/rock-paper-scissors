@@ -9,79 +9,133 @@ function getComputerChoice() {
     }
 }
 
-function getHumanChoice() {
-    let input = 0;
-    do {
-        input = prompt("Scissors, Paper... Rock!");
-        input = input.toLowerCase();
-    } while (input != 'rock' && input != 'paper' && input != 'scissors');    
 
-    return input;
-}
+
+let choices = document.querySelectorAll(".choices");
+let computerScoreboard = document.querySelector("#cpuscore");
+let humanScoreboard = document.querySelector("#yourscore");
+let point = 0;
+let borderToColour = 0;
+let humanSelection = 0, computerSelection = 0;
+let borderToRevert = document.querySelector("#rock");
+let humanScore = 0, computerScore = 0;
+
+const textBox = document.querySelector(".textbox");
+const cpuChoice = document.querySelector("#cpuchoice");
 
 function playRound(humanChoice, computerChoice) {
-    humanChoice = humanChoice.toLowerCase();
-    computerChoice = computerChoice.toLowerCase();
 
     if (humanChoice === computerChoice) {
-        console.log(`Tie! Both are ${computerChoice}.`)
         return -1;
     } else if (humanChoice == 'rock') {
         if (computerChoice == 'paper') {
-            return computerWon(humanChoice, computerChoice);
+            return 0;
         } else if (computerChoice == 'scissors') {
-            return humanWon(humanChoice, computerChoice);
+            return 1;
         }
     } else if (humanChoice == 'paper') {
         if (computerChoice == 'rock') {
-            return humanWon(humanChoice, computerChoice);
+            return 1;
         } else if (computerChoice == 'scissors') {
-            return computerWon(humanChoice, computerChoice);
+            return 0;
         }
     } else if (humanChoice == 'scissors') {
         if (computerChoice == 'rock') {
-            return humanWon(humanChoice, computerChoice);
+            return 0;
         } else if (computerChoice == 'paper') {
-            return computerWon(humanChoice, computerChoice);
+            return 1;
         } 
     }
 }
 
-function humanWon(humanChoice, computerChoice) {
-    computerChoice = computerChoice.at(0).toUpperCase() + computerChoice.slice(1);
-    humanChoice = humanChoice.at(0).toUpperCase() + humanChoice.slice(1);
+
+function playGame(e) {
+    humanSelection = e.target.id;
+    computerSelection = getComputerChoice();
     
-    console.log(`You won! ${humanChoice} beats ${computerChoice}.`);
-    return 1;
-}
+    result = playRound(humanSelection, computerSelection);
+    if (result == 1) {
+        humanScore++;
 
-function computerWon(humanChoice, computerChoice) {
-    computerChoice = computerChoice.at(0).toUpperCase() + computerChoice.slice(1);
-    humanChoice = humanChoice.at(0).toUpperCase() + humanChoice.slice(1);
+        point = document.createElement("div"); /* add point?? paramer == scoreBoard */
+        point.setAttribute("class", "point");
+        humanScoreboard.appendChild(point);
+
+        borderToRevert.style.border = "0";
+        
+        borderToColour = document.querySelector(`#${humanSelection}`);
+        borderToColour.style.border = "10px solid green";
+
+        textBox.textContent = "YOU WIN!";
+        textBox.style.color ="green";
+    } else if (result == 0){
+        computerScore++;
+
+        point = document.createElement("div"); /* could turn into function */
+        point.setAttribute("class", "point");
+        computerScoreboard.appendChild(point);
+        
+        borderToRevert.style.border = "0";
+
+        borderToColour = document.querySelector(`#${humanSelection}`);
+        borderToColour.style.border = "10px solid red"
+
+        textBox.textContent = "YOU LOSE!";
+        textBox.style.color ="red";
+
+    } else if (result == -1) {
+        borderToRevert.style = "0";
+        
+        borderToColour = document.querySelector(`#${humanSelection}`);
+        borderToColour.style.border = "10px solid yellow";
+
+        textBox.textContent = "TIE...";
+        textBox.style.color = "yellow";
+
+    }
+    borderToRevert = borderToColour;
     
-    console.log(`You lose! ${computerChoice} beats ${humanChoice}.`);
-    return 0;
-}
 
-function playGame() {
-    let humanSelection = 0, computerSelection = 0;
-    let humanScore = 0, computerScore = 0;
+    /* change div or image for enemy according to their selection */
 
-    /*logic for 5 rounds */ 
-    for  (let i = 0; i < 5; i++) {
-        humanSelection = getHumanChoice();
-        computerSelection = getComputerChoice();
+    cpuChoice.textContent = computerSelection;
+    humanSelection = 0;
 
-        result = playRound(humanSelection, computerSelection);
-        if (result == 1) {
-            humanScore++;
-        }
-        else if (result == 0){
-            computerScore++;
-        }
+        /* consider adding a default case, like return 0. for now, unnecessary */
+    
+    if (computerScore >= 5) {
+        endGame();
+        textBox.textContent = "HAHA YOU SUCK!";
     }
 
-    console.log(`Human score: ${humanScore}\nComputer Score: ${computerScore}`);
+    if (humanScore >= 5) {
+        endGame();
+        textBox.textContent = "GG! YOU'RE PRETTY GOOD!"
+    }
+};
+
+
+function startGame() { 
+
+    choices.forEach((choice) => {
+        choice.addEventListener("click", playGame);
+    });
 }
 
-playGame();
+function endGame() {
+    choices.forEach((choice) => {
+        choice.removeEventListener("click", playGame);
+    });    
+
+    let finalScore = document.createElement("div");
+    finalScore.setAttribute("class", "finalscore");
+    finalScore.textContent = `${humanScore} : ${computerScore}`;
+    
+    let scoreboard = document.querySelector(".scoreboard");
+    scoreboard.insertBefore(finalScore, computerScoreboard);
+}
+
+
+/* is paramter event and e the same thing?*/
+
+startGame();
